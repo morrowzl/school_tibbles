@@ -13,8 +13,8 @@ library(tidyverse)
 ```
 ### Read CSV file
 ```{r}
-students <-read_csv("students.csv")
-schools <- read_csv("schools.csv")
+students <-read_csv("Resources/students.csv")
+schools <- read_csv("Resources/schools.csv")
 ```
 ### Preview tibble
 ```{r}
