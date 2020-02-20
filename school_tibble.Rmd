@@ -22,12 +22,19 @@ students %>% head()
 ```
 ```{r}
 schools %>% head()
+schools
 ```
 
 #### Join two tibbles
 ```{r}
 data2 = left_join(students, schools, by=c("school_name"))
 data2 %>% head()
+```
+
+```{r}
+type <- data2 %>% group_by(school_name) %>% summarise(count(type))
+
+type
 ```
 
 ### Total Number of Schools
@@ -120,7 +127,13 @@ paste("Overall passing rate: ", overall_passing_rate)
 ```
 
 ### Create a per-school summary
+### create tibble: summary of statistics for each school: type, school_name, Avg.reading.score, Avg.math.score, Total.students
 ```{r}
-# YOUR CODE HERE
+school.tb <- tibble(data2 %>% group_by(type, school_name))
+                    
+# %>% summarise(type=schools$type, school.name=school_name, avg.reading.score=mean(reading_score), avg.math.score=mean(math_score), total.students=nrow(student_count)))
+
+
+school.tb
 ```
 
