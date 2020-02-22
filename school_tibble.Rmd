@@ -31,12 +31,6 @@ data2 = left_join(students, schools, by=c("school_name"))
 data2 %>% head()
 ```
 
-```{r}
-type <- data2 %>% group_by(school_name) %>% summarise(count(type))
-
-type
-```
-
 ### Total Number of Schools
 ```{r}
 school_count <- students$school_name %>% 
@@ -99,6 +93,16 @@ total_budget <- schools %>%
   summarize(sum(budget))
 ```
 
+### Create summary by school
+```{r}
+school.tb <- data2 %>% 
+  group_by(type, school_name) %>% 
+  summarise(Avg.Reading.Score=mean(reading_score), 
+            Avg.Math.Score=mean(math_score), 
+            Total.Students=n())
+school.tb
+```
+
 
 ### Display data
 ```{r}
@@ -114,26 +118,18 @@ paste("Overall passing rate: ", overall_passing_rate)
 
 ### Use sapply() to convert data type
 ```{r}
-# YOUR CODE HERE
+budget_num <- total_budget %>% sapply(as.numeric)
+reading_num <- mean_reading_score %>% sapply(as.numeric)
+math_num <- mean_math_score %>% sapply(as.numeric)
 ```
 
 ### Create Tibble of District Summary
 ```{r}
-# YOUR CODE HERE
+district.tb <- tribble(
+  ~Total.Schools, ~Total.Students, ~Total.Budget, ~Avg.Reading, ~Avg.Math, ~Percent.Pass.Reading, ~Percent.Pass.Math, ~Overall.Passing, 
+  school_count, student_count, budget_num, reading_num, math_num, percentage_passing_reading, percentage_passing_math, overall_passing_rate)
 ```
 ### Display summary of district-wide data
 ```{r}
-# YOUR CODE HERE
+district.tb
 ```
-
-### Create a per-school summary
-### create tibble: summary of statistics for each school: type, school_name, Avg.reading.score, Avg.math.score, Total.students
-```{r}
-school.tb <- tibble(data2 %>% group_by(type, school_name))
-                    
-# %>% summarise(type=schools$type, school.name=school_name, avg.reading.score=mean(reading_score), avg.math.score=mean(math_score), total.students=nrow(student_count)))
-
-
-school.tb
-```
-
